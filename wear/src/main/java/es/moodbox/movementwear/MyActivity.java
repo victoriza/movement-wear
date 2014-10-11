@@ -12,6 +12,8 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import es.moodbox.movementwear.parabolic.ParabolicHelper;
+
 public class MyActivity extends Activity implements SensorEventListener {
 
     private TextView mTextViewVelocity;
@@ -19,8 +21,8 @@ public class MyActivity extends Activity implements SensorEventListener {
 	private TextView mTextView;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
-	private long lastUpdate = 0;
-	private float last_x, last_y, last_z;
+    private double maxVelocity;
+    private double maxDistance;
 	private static final int SHAKE_THRESHOLD = 600;
 
     @Override
@@ -54,11 +56,22 @@ public class MyActivity extends Activity implements SensorEventListener {
 		if (mySensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
 
 
-			float x = event.values[0];
-			float y = event.values[1];
-			float z = event.values[2];
+			double x = event.values[0];
+            double y = event.values[1];
+            double z = event.values[2];
 
-			mTextView.setText("ACC values x:"+x+" y:"+y+" z:"+z);
+            double distance = ParabolicHelper.distance((long)x,(long)y);
+            double velocity = ParabolicHelper.velocityOfLaunch((long)x,(long)y);
+            if(distance > 0) {
+//                mTextViewVelocity.setText(velocity + "m/s");
+//                mTextViewDistance.setText(distance + "m");
+
+                maxVelocity = maxVelocity < velocity ? velocity : maxVelocity;
+                maxDistance = maxDistance < distance ? distance : maxDistance;
+
+                mTextViewVelocity.setText(String.format("%.2f", maxVelocity )+ "m/s");
+                mTextViewDistance.setText(String.format("%.2f", maxDistance)+ "m");
+            }
 		}
 	}
 
