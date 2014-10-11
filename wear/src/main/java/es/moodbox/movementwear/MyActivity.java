@@ -1,11 +1,18 @@
 package es.moodbox.movementwear;
 
 import android.app.Activity;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.wearable.view.CardScrollView;
 import android.support.wearable.view.WatchViewStub;
+import android.view.Gravity;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MyActivity extends Activity {
+public class MyActivity extends Activity implements SensorEventListener {
 
     private TextView mTextViewVelocity;
     private TextView mTextViewDistance;
@@ -21,35 +28,14 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        /*final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
-        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
-            @Override
-            public void onLayoutInflated(WatchViewStub stub) {
-                mTextView = (TextView) stub.findViewById(R.id.text);
-            }
-        });*/
-
         mTextViewDistance = (TextView) findViewById(R.id.txt_meters);
         mTextViewVelocity = (TextView) findViewById(R.id.txt_velocity);
 
         CardScrollView cardScrollView =
                 (CardScrollView) findViewById(R.id.card_scroll_view);
         cardScrollView.setCardGravity(Gravity.BOTTOM);
+        initSensor();
     }
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_my);
-		final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
-		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
-			@Override
-			public void onLayoutInflated(WatchViewStub stub) {
-				mTextView = (TextView) stub.findViewById(R.id.text);
-			}
-		});
-		initSensor();
-
-	}
 	private void initSensor() {
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
@@ -58,7 +44,6 @@ public class MyActivity extends Activity {
 			Toast.makeText(this, "Accelerometer sensor not available", Toast.LENGTH_SHORT).show();
 			finish();
 		}else{
-			//mTextView.setText("We have accelerometer");
 			Toast.makeText(this, "We have accelerometer!!", Toast.LENGTH_SHORT).show();
 		}
 	}
