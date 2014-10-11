@@ -1,13 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.wearable.view.WatchViewStub
+<android.support.wearable.view.BoxInsetLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/watch_view_stub"
-    android:layout_width="match_parent"
+    android:background="@drawable/fisher_img"
     android:layout_height="match_parent"
-    app:rectLayout="@layout/rect_activity_my"
-    app:roundLayout="@layout/round_activity_my"
-    tools:context=".MyActivity"
-    tools:deviceIds="wear">
-</android.support.wearable.view.WatchViewStub>
+    android:layout_width="match_parent">
+
+    <android.support.wearable.view.CardScrollView
+        android:id="@+id/card_scroll_view"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        app:layout_box="bottom">
+
+        <android.support.wearable.view.CardFrame
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="5dp">
+                <TextView
+                    android:id="@+id/txt_meters"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="30m"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/txt_velocity"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="150m/s"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+        </android.support.wearable.view.CardFrame>
+    </android.support.wearable.view.CardScrollView>
+</android.support.wearable.view.BoxInsetLayout>
